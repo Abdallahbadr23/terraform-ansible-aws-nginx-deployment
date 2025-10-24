@@ -1,0 +1,55 @@
+---
+- name: deploy and configure nginx
+  hosts: web-server1
+  gather_facts: true
+  become: true
+  become_method: sudo
+  
+
+  vars:
+    nginx_document_root: /var/www/html
+    nginx_server_name: web-server1
+    html_file: index.html
+
+  tasks:
+    - name: install nginx
+      ansible.builtin.yum:
+        name: nginx
+        state: present
+    - name: Ensure document root exists
+      ansible.builtin.file:
+        path: "{{ nginx_document_root }}"
+        state: directory
+        owner: nginx
+        group: nginx
+        mode: '0755'
+
+    - name: deploy and configure nginx
+      ansible.builtin.template:
+        src: nginx.conf.j2
+        dest: /etc/nginx/conf.d/default.conf
+        owner: root
+        group: root
+        mode: '0644'
+      notify: Restart nginx
+
+    - name: Copy HTML file from control node to nginx web path
+      ansible.builtin.copy:
+        src: "{{ html_file }}"
+        dest: "{{ nginx_document_root }}/{{ html_file }}"
+        owner: root
+        group: root
+        mode: '0644'
+      notify: Restart nginx
+
+    - name: start and enable nginx
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+  handlers:
+    - name: Restart nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted

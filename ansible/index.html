@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Web Server 1 — Deployed by Ansible</title>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin: 2rem; }
+header { border-bottom: 1px solid #eee; padding-bottom: 1rem; margin-bottom: 1rem; }
+h1 { color: #2b6cb0; }
+.meta { color: #666; font-size: 0.9rem; }
+.content { margin-top: 1rem; }
+footer { margin-top: 3rem; color: #999; font-size: 0.8rem; }
+</style>
+</head>
+<body>
+<header>
+<h1>Welcome to web-server1</h1>
+<p class="meta">This page was deployed by Ansible and infra was built by terraform.</p>
+</header>
+
+
+<div class="content">
+<p>Hello — if you see this page, then my website <strong>web-server1</strong> is running correctly.</p>
+
+
+<ul>
+<li>Deployed by: <strong>{{ terraform  }}</strong></li>
+<li>Managed by: <strong>Ansible</strong></li>
+</ul>
+</div>
+
+
+<footer>
+<p>Generated for demonstration purposes.</p>
+</footer>
+</body>
+</html>
